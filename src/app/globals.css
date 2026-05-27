@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: Arial, "Microsoft YaHei", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, "Microsoft YaHei", Helvetica, sans-serif;
+}
+
+button,
+a,
+input,
+select {
+  transition: all 0.18s ease;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.admin-content > .space-y-4 > div:first-child {
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.04);
+}
+
+.admin-content > .space-y-4 > div:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: -3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3b82f6, #6366f1);
+}
+
+.admin-content > .space-y-4 > div:nth-child(2) {
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.045);
+}
+
+.admin-content input,
+.admin-content select {
+  border-radius: 10px !important;
+  border-color: #dbe3ef !important;
+  background: #fbfdff;
+  outline: none;
+}
+
+.admin-content input:focus,
+.admin-content select:focus {
+  border-color: #60a5fa !important;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.admin-content button {
+  border-radius: 10px !important;
+  font-weight: 500;
+}
+
+.admin-content button:hover {
+  transform: translateY(-1px);
+}
+
+.admin-content table {
+  overflow: hidden;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  border: 1px solid #e6edf5 !important;
+  border-radius: 16px;
+  background: white;
+}
+
+.admin-content thead {
+  background: linear-gradient(180deg, #f8fbff, #f2f6fb) !important;
+}
+
+.admin-content th {
+  border-color: #e6edf5 !important;
+  color: #64748b;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-content td {
+  border-color: #edf2f7 !important;
+}
+
+.admin-content tbody tr {
+  transition: background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.admin-content tbody tr:hover {
+  background: #f8fbff;
+}
+
+.admin-content td button {
+  border-radius: 0 !important;
+  font-weight: 500;
+}
+
+.admin-content td button:hover {
+  transform: none;
+  color: #1d4ed8;
+}
+
+.admin-content .fixed form,
+.admin-content .fixed > div {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 22px !important;
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.22) !important;
+}
+
+.admin-content pre {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}

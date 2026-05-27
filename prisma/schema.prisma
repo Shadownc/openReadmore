@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum BlogType {
+  website
+  hexo
+}
+
+enum UnlockMethod {
+  CAPTCHA
+}
+
+model User {
+  id           String           @id @default(cuid())
+  email        String           @unique
+  passwordHash String
+  name         String
+  role         UserRole         @default(USER)
+  status       UserStatus       @default(ACTIVE)
+  lastLoginAt  DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  sessions     Session[]
+  blogs        RegisteredBlog[]
+  records      UnlockRecord[]
+}
+
+model Session {
+  id               String   @id @default(cuid())
+  userId           String
+  sessionTokenHash String   @unique
+  expireAt         DateTime
+  ip               String?
+  userAgent        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expireAt])
+}
+
+model RegisteredBlog {
+  id                    String        @id @default(cuid())
+  ownerId               String
+  blogId                String        @unique
+  type                  BlogType      @default(website)
+  name                  String
+  domain                String
+  officialAccountName   String
+  replyKeyword          String        @default("验证码")
+  qrcodeUrl             String
+  unlockExpiresDays     Int           @default(7)
+  captchaExpiresSeconds Int           @default(300)
+  captchaSecret         String
+  randomPercent         Int           @default(100)
+  allowMobile           Boolean       @default(false)
+  enabled               Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  owner                 User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  records               UnlockRecord[]
+  grants                AccessGrant[]
+
+  @@index([ownerId])
+  @@index([blogId])
+}
+
+model UnlockRecord {
+  id            String       @id @default(cuid())
+  blogId        String
+  registeredId  String
+  ownerId       String
+  visitorId     String?
+  ip            String?
+  userAgent     String?
+  articleUrl    String?
+  articleTitle  String?
+  unlockMethod  UnlockMethod @default(CAPTCHA)
+  randomPercent Int          @default(100)
+  success       Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  blog          RegisteredBlog @relation(fields: [registeredId], references: [id], onDelete: Cascade)
+  owner         User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([blogId])
+  @@index([registeredId])
+  @@index([ownerId])
+  @@index([createdAt])
+}
+
+model AccessGrant {
+  id           String         @id @default(cuid())
+  blogId       String
+  registeredId String
+  visitorId    String
+  tokenHash    String         @unique
+  expireAt     DateTime
+  createdAt    DateTime       @default(now())
+  blog         RegisteredBlog @relation(fields: [registeredId], references: [id], onDelete: Cascade)
+
+  @@index([blogId])
+  @@index([registeredId])
+  @@index([visitorId])
+  @@index([expireAt])
+}
