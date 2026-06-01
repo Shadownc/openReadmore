@@ -71,6 +71,10 @@ model RegisteredBlog {
   captchaSecret         String
   randomPercent         Int           @default(100)
   allowMobile           Boolean       @default(false)
+  previewHeight         Int           @default(480)
+  protectionMode        String        @default("all")
+  whitelistRules        Json?
+  protectionRules       Json?
   enabled               Boolean       @default(true)
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt

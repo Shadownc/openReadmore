@@ -9,6 +9,7 @@ export type UsageBlog = {
   captchaExpiresSeconds: number;
   randomPercent: number;
   allowMobile: boolean;
+  previewHeight?: number;
 };
 
 function getBaseUrl() {
@@ -35,12 +36,15 @@ export function buildHtmlUsage(blog: UsageBlog) {
       var plugin = new ReadmorePlugin()
       plugin.init({
         id: "readmore-container",
+        selector: "article",
         blogId: "${blog.blogId}",
         name: "${blog.officialAccountName}",
         keyword: "${blog.replyKeyword}",
         qrcode: "${blog.qrcodeUrl}",
         type: "${blog.type}",
-        height: "auto",
+        articleOnly: true,
+        articlePathPattern: "^/\\\\d{4}/\\\\d{2}/\\\\d{2}/",
+        height: "${blog.previewHeight || 480}",
         expires: "${blog.unlockExpiresDays}",
         interval: "${blog.captchaExpiresSeconds}",
         random: "${blog.randomPercent}"
@@ -59,7 +63,10 @@ export function buildHexoUsage(blog: UsageBlog) {
   name: '${blog.officialAccountName}'
   keyword: '${blog.replyKeyword}'
   qrcode: '${blog.qrcodeUrl}'
-  height: 'auto'
+  selector: 'article'
+  articleOnly: true
+  articlePathPattern: '^/\\d{4}/\\d{2}/\\d{2}/'
+  height: ${blog.previewHeight || 480}
   expires: ${blog.unlockExpiresDays}
   interval: ${blog.captchaExpiresSeconds}
   random: ${blog.randomPercent}

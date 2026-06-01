@@ -236,6 +236,24 @@ npm run seed:super-admin
 - 验证码有效时间，单位秒
 - 随机引流概率
 - 是否允许移动端
+- 预览高度：未解锁时展示多少 px 内容，例如 `480`
+- 保护模式：
+  - `全部保护`：默认所有文章都需要校验，白名单除外
+  - `按规则保护`：只有命中保护规则的文章需要校验
+  - `关闭保护`：所有文章直接看
+- 白名单规则：每行一条，命中后直接看
+- 保护规则：每行一条，`按规则保护` 模式下命中才需要校验
+
+规则格式：
+
+```text
+/about/
+exact:https://example.com/about/
+prefix:/posts/free/
+contains:?preview=true
+```
+
+不写前缀时默认按 `contains` 匹配。支持 `exact:`、`prefix:`、`contains:`。
 
 保存后会生成一个唯一的博客 ID。
 
@@ -256,12 +274,15 @@ npm run seed:super-admin
   var plugin = new ReadmorePlugin()
   plugin.init({
     id: "readmore-container",
+    selector: "article",
     blogId: "你的博客ID",
     name: "公众号名称",
     keyword: "验证码",
     qrcode: "公众号二维码图片地址",
     type: "website",
-    height: "auto",
+    articleOnly: true,
+    articlePathPattern: "^/\\d{4}/\\d{2}/\\d{2}/",
+    height: "480",
     expires: "7",
     interval: "300",
     random: "100"
@@ -269,7 +290,9 @@ npm run seed:super-admin
 </script>
 ```
 
-把这段代码放到博客文章页面底部即可。
+把这段代码放到博客文章页面底部即可。`selector` 用于指定文章正文容器；不同 Hexo 主题可能不是 `article`，如果没有出现“阅读全文”遮罩，请改成主题实际正文选择器，例如 `.post-body`、`.post-content` 或 `.article-content`。
+
+默认 `articleOnly: true`，插件只在文章详情页启用。`articlePathPattern` 用于识别文章页路径，默认适配 Hexo 常见的 `/年/月/日/文章名/` 格式；如果你的 Hexo 永久链接格式不同，请改成对应路径正则。确实想让所有页面都启用时，可以设置 `articleOnly: false`。
 
 ### 4. 配置公众号自动回复
 
@@ -291,13 +314,16 @@ npm run seed:super-admin
 
 1. 访客打开博客文章。
 2. 博客页面加载 `readmore.js`。
-3. 插件弹出公众号二维码和验证码输入框。
-4. 访客关注公众号，发送关键词。
-5. 公众号自动回复验证码页面链接。
-6. 访客打开验证码页面，复制验证码。
-7. 回到博客弹窗输入验证码。
-8. 验证成功后关闭弹窗，并在本地保存解锁凭证。
-9. 后台记录访问和解锁日志。
+3. 插件请求平台配置，判断当前文章是否命中白名单或保护规则。
+4. 如果文章不需要保护，访客直接阅读全文。
+5. 如果文章需要保护，插件只展示部分正文，并在底部显示“阅读全文”按钮。
+6. 访客点击“阅读全文”，弹出公众号二维码和验证码输入框。
+7. 访客关注公众号，发送关键词。
+8. 公众号自动回复验证码页面链接。
+9. 访客打开验证码页面，复制验证码。
+10. 回到博客弹窗输入验证码。
+11. 验证成功后关闭弹窗、展示全文，并在本地保存解锁凭证。
+12. 后台记录访问和解锁日志。
 
 ## 权限说明
 

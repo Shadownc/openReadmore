@@ -12,6 +12,11 @@ export const loginSchema = z.object({
   captcha: z.string().min(1, "请输入验证码"),
 });
 
+const articleRuleSchema = z.object({
+  type: z.enum(["exact", "prefix", "contains"]),
+  value: z.string().min(1).max(500),
+});
+
 export const blogSchema = z.object({
   type: z.enum(["website", "hexo"]),
   name: z.string().min(1, "请输入博客名称"),
@@ -23,5 +28,9 @@ export const blogSchema = z.object({
   captchaExpiresSeconds: z.coerce.number().int().min(30).max(86400),
   randomPercent: z.coerce.number().int().min(1).max(100),
   allowMobile: z.coerce.boolean().default(false),
+  previewHeight: z.coerce.number().int().min(120).max(3000).default(480),
+  protectionMode: z.enum(["off", "all", "rules"]).default("all"),
+  whitelistRules: z.array(articleRuleSchema).default([]),
+  protectionRules: z.array(articleRuleSchema).default([]),
   enabled: z.coerce.boolean().default(true),
 });
