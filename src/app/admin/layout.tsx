@@ -49,7 +49,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ];
 
   return (
-    <div className="min-h-screen bg-[#f5f7fb] text-slate-800">
+    <div className="admin-shell h-screen overflow-hidden bg-[#f5f7fb] text-slate-800">
       <aside className="fixed inset-y-0 left-0 z-30 w-60 border-r border-slate-200 bg-white shadow-[6px_0_24px_rgba(15,23,42,0.035)]">
         <div className="flex h-14 items-center gap-3 border-b border-slate-100 px-5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3f8df5] text-sm font-bold text-white">微</div>
@@ -74,7 +74,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
         </nav>
       </aside>
-      <main className="ml-60 min-h-screen">
+      <main className="admin-scroll ml-60 h-screen overflow-y-auto overflow-x-hidden">
         <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-slate-200 bg-white px-6">
           <div className="text-sm text-slate-500">
             当前用户：<span className="font-medium text-slate-900">{user.name}</span>

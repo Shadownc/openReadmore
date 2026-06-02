@@ -254,7 +254,7 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45">
-          <form onSubmit={save} className="max-h-[92vh] w-[900px] overflow-auto rounded bg-white p-6 shadow-lg">
+          <form onSubmit={save} className="admin-clean-scrollbar max-h-[92vh] w-[900px] overflow-y-auto overflow-x-hidden rounded bg-white p-6 shadow-lg">
             <div className="mb-6 flex justify-between text-lg"><span>{editing ? "修改" : "新增"}</span><button type="button" onClick={() => setShowForm(false)} className="text-slate-400">×</button></div>
             <div className="grid gap-4">
               <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">* 博客类型</span><select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="rounded border px-3 py-2"><option value="website">website</option><option value="hexo">hexo</option></select></label>
@@ -281,7 +281,7 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
       )}
 
       {usageBlog && usage && (
-        <div className="fixed inset-0 z-50 overflow-auto bg-black/45 p-8">
+        <div className="fixed inset-0 z-50 admin-clean-scrollbar overflow-auto bg-black/45 p-8">
           <div className="mx-auto w-[1100px] rounded bg-white p-6 shadow-lg">
             <div className="mb-5 flex justify-between text-lg"><span>使用</span><button onClick={() => setUsageBlog(null)} className="text-slate-400">×</button></div>
             <Alert text="以下 HTML 代码用于博客手动整合微信公众号的引流工具，你可以将 HTML 代码添加到博客文章页面的底部。不同主题可按需修改 selector 为正文容器。" />
@@ -315,5 +315,5 @@ function Alert({ text }: { text: string }) {
 }
 
 function CodeBlock({ code }: { code: string }) {
-  return <pre className="mb-4 max-h-[360px] overflow-auto whitespace-pre-wrap rounded bg-[#282828] p-4 text-sm leading-7 text-emerald-200">{code}</pre>;
+  return <pre className="admin-clean-scrollbar mb-4 max-h-[360px] overflow-auto whitespace-pre-wrap rounded bg-[#282828] p-4 text-sm leading-7 text-emerald-200">{code}</pre>;
 }
