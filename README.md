@@ -642,3 +642,5 @@ APP_URL="https://你的域名"
 
 ## 提示词来源
 https://www.designprompts.dev/
+https://www.uiprompt.site/zh/styles
+https://uiprompt.art/ui-prompt-gallery
