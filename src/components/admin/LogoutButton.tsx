@@ -10,7 +10,7 @@ export function LogoutButton() {
     router.refresh();
   }
   return (
-    <button onClick={logout} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-500 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600">
+    <button onClick={logout} className="admin-logout-button rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-500 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600">
       退出登录
     </button>
   );

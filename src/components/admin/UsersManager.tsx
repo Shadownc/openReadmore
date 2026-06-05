@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AdminModal } from "@/components/admin/AdminModal";
 import { formatDate } from "@/lib/format";
 
 type UserItem = {
@@ -96,9 +97,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserItem[] }) {
         </div>
       </div>
       {detail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45">
-          <div className="w-[720px] rounded bg-white p-6 shadow-lg">
-            <div className="mb-6 flex justify-between text-lg"><span>用户明细</span><button onClick={() => setDetail(null)} className="text-slate-400">×</button></div>
+        <AdminModal title="用户明细" size="md" onClose={() => setDetail(null)}>
             <div className="grid gap-4">
               <Detail label="用户 ID" value={detail.id} />
               <Detail label="邮箱" value={detail.email} />
@@ -110,8 +109,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserItem[] }) {
               <Detail label="最近登录时间" value={formatDate(detail.lastLoginAt)} />
               <Detail label="注册时间" value={formatDate(detail.createdAt)} />
             </div>
-          </div>
-        </div>
+        </AdminModal>
       )}
     </div>
   );

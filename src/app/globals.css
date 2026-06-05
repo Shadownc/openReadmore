@@ -47,7 +47,8 @@ body {
 button,
 a,
 input,
-select {
+select,
+textarea {
   transition: all 0.18s ease;
 }
 
@@ -55,10 +56,237 @@ button:not(:disabled) {
   cursor: pointer;
 }
 
+.admin-shell {
+  --admin-bg: #050506;
+  --admin-sidebar: rgba(9, 10, 15, 0.95);
+  --admin-topbar: rgba(10, 11, 16, 0.88);
+  --admin-surface: rgba(15, 16, 23, 0.92);
+  --admin-surface-strong: rgba(18, 19, 27, 0.98);
+  --admin-surface-muted: rgba(255, 255, 255, 0.045);
+  --admin-border: rgba(255, 255, 255, 0.08);
+  --admin-border-strong: rgba(94, 106, 210, 0.34);
+  --admin-heading: #f5f5f7;
+  --admin-text: #e3e4ea;
+  --admin-muted: #8a8f98;
+  --admin-faint: #5f6470;
+  --admin-accent: #8d96ff;
+  --admin-accent-strong: #5e6ad2;
+  --admin-accent-soft: rgba(94, 106, 210, 0.14);
+  --admin-on-accent: #ffffff;
+  --admin-danger: #fb7185;
+  --admin-danger-soft: rgba(251, 113, 133, 0.12);
+  --admin-success: #34d399;
+  --admin-success-soft: rgba(52, 211, 153, 0.12);
+  --admin-input-bg: rgba(255, 255, 255, 0.045);
+  --admin-input-bg-focus: rgba(255, 255, 255, 0.07);
+  --admin-table-head: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+  --admin-table-row-hover: rgba(94, 106, 210, 0.09);
+  --admin-shadow: 0 22px 70px rgba(0, 0, 0, 0.36);
+  --admin-modal-shadow: 0 34px 110px rgba(0, 0, 0, 0.58);
+  --admin-scrollbar-thumb: rgba(141, 150, 255, 0.58);
+  --admin-scrollbar-thumb-hover: rgba(165, 180, 252, 0.84);
+  --admin-scrollbar-track: transparent;
+  --admin-code-bg: #07080b;
+  --admin-code-text: #b7f7ce;
+  position: relative;
+  isolation: isolate;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+  color-scheme: dark;
+}
+
+.admin-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.admin-premium::before {
+  background:
+    linear-gradient(135deg, rgba(94, 106, 210, 0.18), transparent 30%),
+    linear-gradient(180deg, #050506 0%, #090a10 46%, #050506 100%);
+}
+
+.admin-cyber {
+  --admin-sidebar: rgba(3, 8, 11, 0.95);
+  --admin-topbar: rgba(5, 12, 15, 0.9);
+  --admin-surface: rgba(7, 15, 18, 0.92);
+  --admin-surface-strong: rgba(8, 18, 22, 0.98);
+  --admin-surface-muted: rgba(0, 212, 255, 0.055);
+  --admin-border: rgba(0, 212, 255, 0.16);
+  --admin-border-strong: rgba(0, 255, 136, 0.32);
+  --admin-heading: #f2fff8;
+  --admin-text: #d8efe8;
+  --admin-muted: rgba(216, 239, 232, 0.62);
+  --admin-faint: rgba(216, 239, 232, 0.36);
+  --admin-accent: #00d4ff;
+  --admin-accent-strong: #00ff88;
+  --admin-accent-soft: rgba(0, 255, 136, 0.09);
+  --admin-danger: #ff5f87;
+  --admin-danger-soft: rgba(255, 95, 135, 0.13);
+  --admin-success: #00ff88;
+  --admin-success-soft: rgba(0, 255, 136, 0.1);
+  --admin-input-bg: rgba(0, 0, 0, 0.28);
+  --admin-input-bg-focus: rgba(0, 212, 255, 0.07);
+  --admin-table-head: linear-gradient(180deg, rgba(0, 255, 136, 0.08), rgba(0, 212, 255, 0.035));
+  --admin-table-row-hover: rgba(0, 255, 136, 0.055);
+  --admin-scrollbar-thumb: rgba(0, 212, 255, 0.48);
+  --admin-scrollbar-thumb-hover: rgba(0, 255, 136, 0.72);
+  --admin-code-bg: #020607;
+  --admin-code-text: #a7ffd0;
+}
+
+.admin-cyber::before {
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.024) 1px, transparent 1px),
+    linear-gradient(180deg, #03070a 0%, #06100e 48%, #03070a 100%);
+  background-size: 48px 48px, 48px 48px, auto;
+}
+
+.admin-sidebar,
+.admin-scroll {
+  z-index: 1;
+}
+
+.admin-shell .admin-sidebar.bg-white {
+  background: var(--admin-sidebar) !important;
+  border-color: var(--admin-border) !important;
+  box-shadow: 6px 0 28px rgba(0, 0, 0, 0.18) !important;
+  backdrop-filter: blur(18px);
+}
+
+.admin-shell .admin-topbar.bg-white {
+  background: var(--admin-topbar) !important;
+  border-color: var(--admin-border) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(18px);
+}
+
+.admin-brand-mark {
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, var(--admin-accent-strong), var(--admin-accent)) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.admin-brand-title,
+.admin-shell .text-slate-900 {
+  color: var(--admin-heading) !important;
+}
+
+.admin-brand-subtitle,
+.admin-shell .text-slate-400,
+.admin-shell .text-slate-500,
+.admin-shell .text-slate-600 {
+  color: var(--admin-muted) !important;
+}
+
+.admin-shell .text-slate-700,
+.admin-shell .text-slate-800 {
+  color: var(--admin-text) !important;
+}
+
+.admin-shell .border-slate-100,
+.admin-shell .border-slate-200,
+.admin-shell .border-slate-300 {
+  border-color: var(--admin-border) !important;
+}
+
+.admin-shell .bg-white {
+  background: var(--admin-surface) !important;
+}
+
+.admin-shell .bg-slate-50 {
+  background: var(--admin-surface-muted) !important;
+}
+
+.admin-shell .text-blue-500 {
+  color: var(--admin-accent) !important;
+}
+
+.admin-shell .bg-blue-500 {
+  background: linear-gradient(135deg, var(--admin-accent-strong), var(--admin-accent)) !important;
+  color: var(--admin-on-accent) !important;
+  border-color: transparent !important;
+}
+
+.admin-shell .bg-rose-400 {
+  background: var(--admin-danger) !important;
+  color: #fff !important;
+}
+
+.admin-shell .bg-green-50 {
+  background: var(--admin-success-soft) !important;
+}
+
+.admin-shell .text-green-600 {
+  color: var(--admin-success) !important;
+}
+
+.admin-shell .bg-red-50 {
+  background: var(--admin-danger-soft) !important;
+}
+
+.admin-shell .text-red-600 {
+  color: var(--admin-danger) !important;
+}
+
+.admin-nav-section {
+  color: var(--admin-faint) !important;
+}
+
+.admin-cyber .admin-brand-subtitle,
+.admin-cyber .admin-nav-section {
+  letter-spacing: 0.08em;
+}
+
+.admin-nav-link {
+  border-radius: 8px !important;
+  color: var(--admin-muted) !important;
+}
+
+.admin-nav-link span {
+  color: inherit !important;
+}
+
+.admin-nav-link:hover {
+  background: var(--admin-accent-soft) !important;
+  border-color: var(--admin-accent-strong) !important;
+  color: var(--admin-accent-strong) !important;
+}
+
+.admin-theme-toggle {
+  min-height: 36px !important;
+  border-radius: 8px !important;
+}
+
+.admin-logout-button {
+  border-radius: 8px !important;
+  background: var(--admin-surface-muted) !important;
+  border-color: var(--admin-border) !important;
+  color: var(--admin-muted) !important;
+  box-shadow: none !important;
+}
+
+.admin-logout-button:hover {
+  background: var(--admin-accent-soft) !important;
+  border-color: var(--admin-border-strong) !important;
+  color: var(--admin-accent) !important;
+}
+
+.admin-content {
+  position: relative;
+  z-index: 1;
+}
+
 .admin-content > .space-y-4 > div:first-child {
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px;
+  background: var(--admin-surface) !important;
+  color: var(--admin-accent) !important;
+  box-shadow: var(--admin-shadow);
 }
 
 .admin-content > .space-y-4 > div:first-child::before {
@@ -69,288 +297,476 @@ button:not(:disabled) {
   margin-right: 8px;
   vertical-align: -3px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #3b82f6, #6366f1);
+  background: linear-gradient(180deg, var(--admin-accent-strong), var(--admin-accent));
 }
 
 .admin-content > .space-y-4 > div:nth-child(2) {
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 20px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.045);
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
 }
 
-.admin-content input,
-.admin-content select {
-  border-radius: 10px !important;
-  border-color: #dbe3ef !important;
-  background: #fbfdff;
+.admin-content input:not([type="checkbox"]),
+.admin-content select,
+.admin-content textarea {
+  border-radius: 8px !important;
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-input-bg) !important;
+  color: var(--admin-text) !important;
   outline: none;
 }
 
-.admin-content input:focus,
-.admin-content select:focus {
-  border-color: #60a5fa !important;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+.admin-content textarea {
+  resize: vertical;
+}
+
+.admin-content input::placeholder,
+.admin-content textarea::placeholder {
+  color: var(--admin-faint);
+}
+
+.admin-content input:disabled {
+  color: var(--admin-muted) !important;
+  opacity: 0.78;
+}
+
+.admin-content input[type="checkbox"] {
+  accent-color: var(--admin-accent-strong);
+}
+
+.admin-content input:not([type="checkbox"]):focus,
+.admin-content select:focus,
+.admin-content textarea:focus {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-input-bg-focus) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--admin-accent) 22%, transparent);
 }
 
 .admin-content button {
-  border-radius: 10px !important;
-  font-weight: 500;
+  border-radius: 8px !important;
+  font-weight: 600;
 }
 
 .admin-content button:hover {
   transform: translateY(-1px);
 }
 
+.admin-content button.border {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-muted) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-content button.border:hover {
+  border-color: var(--admin-border-strong) !important;
+  color: var(--admin-accent) !important;
+}
+
+.admin-content .overflow-x-auto {
+  padding-bottom: 6px;
+  border-radius: 8px;
+}
+
 .admin-content table {
   overflow: hidden;
   border-collapse: separate !important;
   border-spacing: 0;
-  border: 1px solid #e6edf5 !important;
-  border-radius: 16px;
-  background: white;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text);
 }
 
 .admin-content thead {
-  background: linear-gradient(180deg, #f8fbff, #f2f6fb) !important;
+  background: var(--admin-table-head) !important;
 }
 
 .admin-content th {
-  border-color: #e6edf5 !important;
-  color: #64748b;
-  font-weight: 600;
+  border-color: var(--admin-border) !important;
+  color: var(--admin-muted) !important;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .admin-content td {
-  border-color: #edf2f7 !important;
+  border-color: var(--admin-border) !important;
+  color: var(--admin-text) !important;
 }
 
 .admin-content tbody tr {
+  color: var(--admin-text) !important;
   transition: background 0.16s ease, box-shadow 0.16s ease;
 }
 
 .admin-content tbody tr:hover {
-  background: #f8fbff;
+  background: var(--admin-table-row-hover);
 }
 
 .admin-content td button {
-  border-radius: 0 !important;
-  font-weight: 500;
+  border-radius: 6px !important;
+  background: transparent !important;
+  color: var(--admin-accent) !important;
+  font-weight: 600;
 }
 
 .admin-content td button:hover {
+  color: var(--admin-accent-strong) !important;
   transform: none;
-  color: #1d4ed8;
 }
 
-.admin-content .fixed form,
-.admin-content .fixed > div {
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 22px !important;
-  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.22) !important;
+.admin-content p,
+.admin-content label span {
+  color: var(--admin-muted) !important;
 }
 
 .admin-content pre {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px !important;
+  background: var(--admin-code-bg) !important;
+  color: var(--admin-code-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(10px);
+}
+
+.admin-modal-panel {
+  display: flex;
+  width: min(860px, calc(100vw - 32px));
+  max-height: min(92vh, 960px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--admin-border-strong);
+  border-radius: 8px;
+  background: var(--admin-surface-strong) !important;
+  color: var(--admin-text);
+  box-shadow: var(--admin-modal-shadow);
+}
+
+.admin-modal-md {
+  width: min(720px, calc(100vw - 32px));
+}
+
+.admin-modal-lg {
+  width: min(860px, calc(100vw - 32px));
+}
+
+.admin-modal-wide {
+  width: min(900px, calc(100vw - 32px));
+}
+
+.admin-modal-xl {
+  width: min(1100px, calc(100vw - 32px));
+}
+
+.admin-modal-header {
+  display: flex;
+  min-height: 58px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--admin-border);
+  padding: 0 20px;
+}
+
+.admin-modal-header h2 {
+  color: var(--admin-heading);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.admin-modal-close {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px !important;
+  background: var(--admin-surface-muted);
+  color: var(--admin-muted);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.admin-modal-close:hover {
+  border-color: var(--admin-border-strong);
+  color: var(--admin-accent);
+  transform: none !important;
+}
+
+.admin-modal-body {
+  min-height: 0;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.admin-modal-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid var(--admin-border);
+  background: var(--admin-surface-muted);
+  padding: 16px 20px;
 }
 
 .admin-shell,
-.admin-scroll,
-.admin-content,
-.admin-content * {
-  scrollbar-width: thin;
-  scrollbar-color: #c3d4ea transparent;
-}
-
-.admin-scroll::-webkit-scrollbar,
-.admin-scroll *::-webkit-scrollbar,
-.admin-content::-webkit-scrollbar,
-.admin-content *::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-.admin-scroll::-webkit-scrollbar-track,
-.admin-scroll *::-webkit-scrollbar-track,
-.admin-content::-webkit-scrollbar-track,
-.admin-content *::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.admin-scroll::-webkit-scrollbar-button,
-.admin-scroll::-webkit-scrollbar-button:vertical,
-.admin-scroll::-webkit-scrollbar-button:horizontal,
-.admin-scroll::-webkit-scrollbar-button:single-button,
-.admin-scroll::-webkit-scrollbar-button:double-button,
-.admin-scroll::-webkit-scrollbar-button:start,
-.admin-scroll::-webkit-scrollbar-button:end,
-.admin-scroll::-webkit-scrollbar-button:decrement,
-.admin-scroll::-webkit-scrollbar-button:increment,
-.admin-scroll *::-webkit-scrollbar-button,
-.admin-scroll *::-webkit-scrollbar-button:vertical,
-.admin-scroll *::-webkit-scrollbar-button:horizontal,
-.admin-scroll *::-webkit-scrollbar-button:single-button,
-.admin-scroll *::-webkit-scrollbar-button:double-button,
-.admin-scroll *::-webkit-scrollbar-button:start,
-.admin-scroll *::-webkit-scrollbar-button:end,
-.admin-scroll *::-webkit-scrollbar-button:decrement,
-.admin-scroll *::-webkit-scrollbar-button:increment,
-.admin-content::-webkit-scrollbar-button,
-.admin-content::-webkit-scrollbar-button:vertical,
-.admin-content::-webkit-scrollbar-button:horizontal,
-.admin-content::-webkit-scrollbar-button:single-button,
-.admin-content::-webkit-scrollbar-button:double-button,
-.admin-content::-webkit-scrollbar-button:start,
-.admin-content::-webkit-scrollbar-button:end,
-.admin-content::-webkit-scrollbar-button:decrement,
-.admin-content::-webkit-scrollbar-button:increment,
-.admin-content *::-webkit-scrollbar-button,
-.admin-content *::-webkit-scrollbar-button:vertical,
-.admin-content *::-webkit-scrollbar-button:horizontal,
-.admin-content *::-webkit-scrollbar-button:single-button,
-.admin-content *::-webkit-scrollbar-button:double-button,
-.admin-content *::-webkit-scrollbar-button:start,
-.admin-content *::-webkit-scrollbar-button:end,
-.admin-content *::-webkit-scrollbar-button:decrement,
-.admin-content *::-webkit-scrollbar-button:increment {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  -webkit-appearance: none !important;
-}
-
-.admin-scroll::-webkit-scrollbar-thumb,
-.admin-scroll *::-webkit-scrollbar-thumb,
-.admin-content::-webkit-scrollbar-thumb,
-.admin-content *::-webkit-scrollbar-thumb {
-  min-height: 48px;
-  border: 3px solid transparent;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #cfe0f4, #9fb8d8) border-box;
-  background-clip: padding-box, border-box;
-}
-
-.admin-scroll::-webkit-scrollbar-thumb:hover,
-.admin-scroll *::-webkit-scrollbar-thumb:hover,
-.admin-content::-webkit-scrollbar-thumb:hover,
-.admin-content *::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #93c5fd, #60a5fa) border-box;
-  background-clip: padding-box, border-box;
-}
-
-.admin-scroll::-webkit-scrollbar-corner,
-.admin-scroll *::-webkit-scrollbar-corner,
-.admin-content::-webkit-scrollbar-corner,
-.admin-content *::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
+.admin-shell *,
 .admin-clean-scrollbar,
 .admin-clean-scrollbar * {
   scrollbar-width: thin;
-  scrollbar-color: #c3d4ea transparent;
+  scrollbar-color: var(--admin-scrollbar-thumb) var(--admin-scrollbar-track);
 }
 
+.admin-shell::-webkit-scrollbar,
+.admin-shell *::-webkit-scrollbar,
 .admin-clean-scrollbar::-webkit-scrollbar,
 .admin-clean-scrollbar *::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 }
 
+.admin-shell::-webkit-scrollbar-track,
+.admin-shell *::-webkit-scrollbar-track,
 .admin-clean-scrollbar::-webkit-scrollbar-track,
 .admin-clean-scrollbar *::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--admin-scrollbar-track);
 }
 
+.admin-shell::-webkit-scrollbar-thumb,
+.admin-shell *::-webkit-scrollbar-thumb,
+.admin-clean-scrollbar::-webkit-scrollbar-thumb,
+.admin-clean-scrollbar *::-webkit-scrollbar-thumb {
+  min-height: 48px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: var(--admin-scrollbar-thumb);
+  background-clip: padding-box;
+}
+
+.admin-shell::-webkit-scrollbar-thumb:hover,
+.admin-shell *::-webkit-scrollbar-thumb:hover,
+.admin-clean-scrollbar::-webkit-scrollbar-thumb:hover,
+.admin-clean-scrollbar *::-webkit-scrollbar-thumb:hover {
+  background-color: var(--admin-scrollbar-thumb-hover);
+}
+
+.admin-shell::-webkit-scrollbar-button,
+.admin-shell *::-webkit-scrollbar-button,
 .admin-clean-scrollbar::-webkit-scrollbar-button,
-.admin-clean-scrollbar *::-webkit-scrollbar-button {
+.admin-clean-scrollbar *::-webkit-scrollbar-button,
+.admin-shell::-webkit-scrollbar-button:single-button,
+.admin-shell *::-webkit-scrollbar-button:single-button,
+.admin-clean-scrollbar::-webkit-scrollbar-button:single-button,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:single-button,
+.admin-shell::-webkit-scrollbar-button:double-button,
+.admin-shell *::-webkit-scrollbar-button:double-button,
+.admin-clean-scrollbar::-webkit-scrollbar-button:double-button,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:double-button,
+.admin-shell::-webkit-scrollbar-button:vertical,
+.admin-shell *::-webkit-scrollbar-button:vertical,
+.admin-clean-scrollbar::-webkit-scrollbar-button:vertical,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:vertical,
+.admin-shell::-webkit-scrollbar-button:horizontal,
+.admin-shell *::-webkit-scrollbar-button:horizontal,
+.admin-clean-scrollbar::-webkit-scrollbar-button:horizontal,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:horizontal,
+.admin-shell::-webkit-scrollbar-button:start,
+.admin-shell *::-webkit-scrollbar-button:start,
+.admin-clean-scrollbar::-webkit-scrollbar-button:start,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:start,
+.admin-shell::-webkit-scrollbar-button:end,
+.admin-shell *::-webkit-scrollbar-button:end,
+.admin-clean-scrollbar::-webkit-scrollbar-button:end,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:end,
+.admin-shell::-webkit-scrollbar-button:decrement,
+.admin-shell *::-webkit-scrollbar-button:decrement,
+.admin-clean-scrollbar::-webkit-scrollbar-button:decrement,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:decrement,
+.admin-shell::-webkit-scrollbar-button:increment,
+.admin-shell *::-webkit-scrollbar-button:increment,
+.admin-clean-scrollbar::-webkit-scrollbar-button:increment,
+.admin-clean-scrollbar *::-webkit-scrollbar-button:increment {
+  -webkit-appearance: none !important;
+  appearance: none !important;
   display: none !important;
   width: 0 !important;
   height: 0 !important;
   min-width: 0 !important;
   min-height: 0 !important;
+  border: 0 !important;
   background: transparent !important;
-  -webkit-appearance: none !important;
 }
 
-.admin-clean-scrollbar::-webkit-scrollbar-button:vertical:start:decrement,
-.admin-clean-scrollbar::-webkit-scrollbar-button:vertical:end:increment,
-.admin-clean-scrollbar *::-webkit-scrollbar-button:vertical:start:decrement,
-.admin-clean-scrollbar *::-webkit-scrollbar-button:vertical:end:increment {
-  height: 0 !important;
-}
-
-.admin-clean-scrollbar::-webkit-scrollbar-button:horizontal:start:decrement,
-.admin-clean-scrollbar::-webkit-scrollbar-button:horizontal:end:increment,
-.admin-clean-scrollbar *::-webkit-scrollbar-button:horizontal:start:decrement,
-.admin-clean-scrollbar *::-webkit-scrollbar-button:horizontal:end:increment {
-  width: 0 !important;
-}
-
-.admin-clean-scrollbar::-webkit-scrollbar-thumb,
-.admin-clean-scrollbar *::-webkit-scrollbar-thumb {
-  min-height: 48px;
-  border: 3px solid transparent;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #cfe0f4, #9fb8d8) border-box;
-  background-clip: padding-box, border-box;
-}
-
-.admin-clean-scrollbar::-webkit-scrollbar-thumb:hover,
-.admin-clean-scrollbar *::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #93c5fd, #60a5fa) border-box;
-  background-clip: padding-box, border-box;
-}
-
+.admin-shell::-webkit-scrollbar-corner,
+.admin-shell *::-webkit-scrollbar-corner,
 .admin-clean-scrollbar::-webkit-scrollbar-corner,
-.admin-clean-scrollbar *::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-.admin-content .overflow-x-auto {
-  padding-bottom: 4px;
+.admin-clean-scrollbar *::-webkit-scrollbar-corner,
+.admin-shell::-webkit-resizer,
+.admin-shell *::-webkit-resizer,
+.admin-clean-scrollbar::-webkit-resizer,
+.admin-clean-scrollbar *::-webkit-resizer,
+.admin-shell::-webkit-scrollbar-track-piece,
+.admin-shell *::-webkit-scrollbar-track-piece,
+.admin-clean-scrollbar::-webkit-scrollbar-track-piece,
+.admin-clean-scrollbar *::-webkit-scrollbar-track-piece {
+  background: transparent !important;
 }
 
 .admin-content .overflow-x-auto::-webkit-scrollbar {
   height: 8px;
 }
 
-.admin-shell::-webkit-scrollbar-button,
-.admin-shell *::-webkit-scrollbar-button,
-.admin-clean-scrollbar::-webkit-scrollbar-button,
-.admin-clean-scrollbar *::-webkit-scrollbar-button {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  -webkit-appearance: none !important;
+@media (max-width: 900px) {
+  .admin-shell {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .admin-shell .admin-sidebar.bg-white {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+  }
+
+  .admin-sidebar > div:first-child {
+    height: 56px;
+    padding-right: 14px !important;
+    padding-left: 14px !important;
+  }
+
+  .admin-sidebar nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 12px !important;
+  }
+
+  .admin-sidebar nav > .admin-nav-link,
+  .admin-sidebar nav > div {
+    flex: 0 0 auto;
+  }
+
+  .admin-sidebar nav > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: 0 !important;
+  }
+
+  .admin-sidebar .admin-nav-section {
+    display: none;
+  }
+
+  .admin-sidebar .admin-nav-link {
+    height: 38px !important;
+    min-width: max-content;
+    margin-bottom: 0 !important;
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+    white-space: nowrap;
+  }
+
+  .admin-scroll {
+    height: auto !important;
+    min-height: calc(100dvh - 108px);
+    margin-left: 0 !important;
+    overflow: visible !important;
+  }
+
+  .admin-shell .admin-topbar.bg-white {
+    min-height: 56px;
+    height: auto !important;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 12px !important;
+  }
+
+  .admin-topbar > div:first-child {
+    min-width: 0;
+    flex: 1 1 260px;
+    line-height: 1.65;
+  }
+
+  .admin-topbar > div:last-child {
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px !important;
+  }
+
+  .admin-content {
+    padding: 12px !important;
+  }
+
+  .admin-content > .space-y-4 > div:nth-child(2) {
+    padding: 12px !important;
+  }
+
+  .admin-content .mb-4.flex {
+    flex-wrap: wrap;
+  }
+
+  .admin-content .mb-4 input {
+    width: min(100%, 16rem) !important;
+  }
 }
 
-.admin-shell::-webkit-scrollbar-button:horizontal,
-.admin-shell *::-webkit-scrollbar-button:horizontal,
-.admin-clean-scrollbar::-webkit-scrollbar-button:horizontal,
-.admin-clean-scrollbar *::-webkit-scrollbar-button:horizontal {
-  width: 0 !important;
-}
+@media (max-width: 720px) {
+  .admin-modal-backdrop {
+    align-items: stretch;
+    padding: 12px;
+  }
 
-.admin-shell::-webkit-scrollbar-button:vertical,
-.admin-shell *::-webkit-scrollbar-button:vertical,
-.admin-clean-scrollbar::-webkit-scrollbar-button:vertical,
-.admin-clean-scrollbar *::-webkit-scrollbar-button:vertical {
-  height: 0 !important;
-}
+  .admin-modal-panel {
+    width: 100%;
+    max-height: calc(100dvh - 24px);
+  }
 
-.admin-shell::-webkit-scrollbar-track-piece,
-.admin-shell *::-webkit-scrollbar-track-piece,
-.admin-clean-scrollbar::-webkit-scrollbar-track-piece,
-.admin-clean-scrollbar *::-webkit-scrollbar-track-piece {
-  background: transparent !important;
+  .admin-modal-body {
+    padding: 16px;
+  }
+
+  .admin-modal-footer {
+    padding: 14px 16px;
+  }
+
+  .admin-modal-footer button {
+    flex: 1 1 auto;
+  }
+
+  .admin-modal-body label {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-modal-body label span {
+    padding-top: 0 !important;
+    text-align: left !important;
+  }
 }
 
 .cyber-home {

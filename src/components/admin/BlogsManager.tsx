@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { AdminModal } from "@/components/admin/AdminModal";
 import { buildHexoUsage, buildHtmlUsage, buildWechatReply, type UsageBlog } from "@/lib/usage";
 import { shortText } from "@/lib/format";
 
@@ -253,9 +254,19 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45">
-          <form onSubmit={save} className="admin-clean-scrollbar max-h-[92vh] w-[900px] overflow-y-auto overflow-x-hidden rounded bg-white p-6 shadow-lg">
-            <div className="mb-6 flex justify-between text-lg"><span>{editing ? "修改" : "新增"}</span><button type="button" onClick={() => setShowForm(false)} className="text-slate-400">×</button></div>
+        <AdminModal
+          as="form"
+          title={editing ? "修改" : "新增"}
+          size="wide"
+          onClose={() => setShowForm(false)}
+          onSubmit={save}
+          footer={
+            <>
+              <button type="button" onClick={() => setShowForm(false)} className="rounded border px-5 py-2">取消</button>
+              <button className="rounded bg-blue-500 px-5 py-2 text-white">确定</button>
+            </>
+          }
+        >
             <div className="grid gap-4">
               <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">* 博客类型</span><select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="rounded border px-3 py-2"><option value="website">website</option><option value="hexo">hexo</option></select></label>
               {editing && <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">* 博客 ID</span><input value={editing.blogId} disabled className="rounded border bg-slate-50 px-3 py-2" /></label>}
@@ -275,24 +286,30 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
             </div>
             <p className="mt-4 rounded bg-slate-50 px-3 py-2 text-sm leading-6 text-slate-500">规则每行一条；不写前缀时默认按 contains 匹配。支持 exact:、prefix:、contains:。白名单命中后直接看；按规则保护模式下，保护规则命中才需要校验。</p>
             {error && <div className="mt-4 rounded bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>}
-            <div className="mt-8 flex justify-end gap-3"><button type="button" onClick={() => setShowForm(false)} className="rounded border px-5 py-2">取消</button><button className="rounded bg-blue-500 px-5 py-2 text-white">确定</button></div>
-          </form>
-        </div>
+        </AdminModal>
       )}
 
       {usageBlog && usage && (
-        <div className="fixed inset-0 z-50 admin-clean-scrollbar overflow-auto bg-black/45 p-8">
-          <div className="mx-auto w-[1100px] rounded bg-white p-6 shadow-lg">
-            <div className="mb-5 flex justify-between text-lg"><span>使用</span><button onClick={() => setUsageBlog(null)} className="text-slate-400">×</button></div>
+        <AdminModal
+          title="使用"
+          size="xl"
+          onClose={() => setUsageBlog(null)}
+          footer={
+            <>
+              <button onClick={() => setUsageBlog(null)} className="rounded border px-5 py-2">取消</button>
+              <button onClick={() => copy(usage.html)} className="rounded bg-blue-500 px-5 py-2 text-white">复制 HTML 代码</button>
+              <button onClick={() => copy(usage.hexo)} className="rounded bg-blue-500 px-5 py-2 text-white">复制 Hexo 配置内容</button>
+              <button onClick={() => copy(usage.reply)} className="rounded bg-blue-500 px-5 py-2 text-white">复制公众号消息内容</button>
+            </>
+          }
+        >
             <Alert text="以下 HTML 代码用于博客手动整合微信公众号的引流工具，你可以将 HTML 代码添加到博客文章页面的底部。不同主题可按需修改 selector 为正文容器。" />
             <CodeBlock code={usage.html} />
             <Alert text="Hexo 静态博客可参考以下 YAML 配置内容。不同主题正文容器不同，如果默认 article 不生效，请改成主题的正文选择器。" />
             <CodeBlock code={usage.hexo} />
             <Alert text="以下文本是微信公众号自动回复的消息内容，关注公众号的人就是靠它来获取博客解锁的验证码。" />
             <CodeBlock code={usage.reply} />
-            <div className="mt-8 flex justify-end gap-3"><button onClick={() => setUsageBlog(null)} className="rounded border px-5 py-2">取消</button><button onClick={() => copy(usage.html)} className="rounded bg-blue-500 px-5 py-2 text-white">复制 HTML 代码</button><button onClick={() => copy(usage.hexo)} className="rounded bg-blue-500 px-5 py-2 text-white">复制 Hexo 配置内容</button><button onClick={() => copy(usage.reply)} className="rounded bg-blue-500 px-5 py-2 text-white">复制公众号消息内容</button></div>
-          </div>
-        </div>
+        </AdminModal>
       )}
     </div>
   );

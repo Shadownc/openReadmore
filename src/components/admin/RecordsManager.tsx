@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AdminModal } from "@/components/admin/AdminModal";
 import { formatDate, shortText } from "@/lib/format";
 
 type RecordItem = {
@@ -103,9 +104,7 @@ export function RecordsManager({ currentUser, initialRecords }: { currentUser: C
         </div>
       </div>
       {detail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45">
-          <div className="w-[860px] rounded bg-white p-6 shadow-lg">
-            <div className="mb-6 flex justify-between text-lg"><span>明细</span><button onClick={() => setDetail(null)} className="text-slate-400">×</button></div>
+        <AdminModal title="明细" size="lg" onClose={() => setDetail(null)}>
             <div className="grid gap-4">
               <Detail label="博客 ID" value={detail.blogId} />
               {currentUser.role === "SUPER_ADMIN" && <Detail label="所属用户" value={`${detail.owner?.name || "-"} ${detail.owner?.email || ""}`} />}
@@ -117,8 +116,7 @@ export function RecordsManager({ currentUser, initialRecords }: { currentUser: C
               <Detail label="随机引流概率" value={`${detail.randomPercent}%`} />
               <Detail label="创建时间" value={formatDate(detail.createdAt)} />
             </div>
-          </div>
-        </div>
+        </AdminModal>
       )}
     </div>
   );
