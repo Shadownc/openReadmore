@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type FormEvent, type ReactNode, useState } from "react";
 
+import { FrontendScrollArea } from "@/components/FrontendScrollArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import type { AppTheme } from "@/lib/theme";
 
@@ -19,7 +20,8 @@ async function readApiJson(response: Response) {
 function AuthShell({ title, description, theme, children }: { title: string; description: string; theme: AppTheme; children: ReactNode }) {
   if (theme === "premium") {
     return (
-      <main className="relative min-h-screen overflow-hidden bg-[#050506] text-[#EDEDEF]">
+      <FrontendScrollArea variant="premium">
+        <main className="relative min-h-screen overflow-hidden bg-[#050506] text-[#EDEDEF]">
         <PremiumAmbientBackground />
 
         <section className="relative z-10 mx-auto grid min-h-screen w-full max-w-6xl items-center gap-10 px-5 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
@@ -63,12 +65,14 @@ function AuthShell({ title, description, theme, children }: { title: string; des
             </div>
           </div>
         </section>
-      </main>
+        </main>
+      </FrontendScrollArea>
     );
   }
 
   return (
-    <main className="cyber-home relative min-h-screen overflow-hidden bg-cyber-bg text-cyber-text">
+    <FrontendScrollArea variant="cyber">
+      <main className="cyber-home relative min-h-screen overflow-hidden bg-cyber-bg text-cyber-text">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden bg-[radial-gradient(ellipse_at_top,#10101a_0%,#0a0a0f_48%,#030307_100%)]">
         <div className="cyber-grid absolute inset-0 opacity-35" />
         <div className="cyber-scanlines absolute inset-0 opacity-28" />
@@ -123,7 +127,8 @@ function AuthShell({ title, description, theme, children }: { title: string; des
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </FrontendScrollArea>
   );
 }
 

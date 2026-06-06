@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { FrontendScrollArea } from "@/components/FrontendScrollArea";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import type { AppTheme } from "@/lib/theme";
@@ -72,7 +73,8 @@ const heroTitle = "扫码关注，立即解锁";
 
 export function CyberHome({ theme }: { theme: AppTheme }) {
   return (
-    <main className="cyber-home relative min-h-screen overflow-hidden bg-cyber-bg text-cyber-text">
+    <FrontendScrollArea variant="cyber">
+      <main className="cyber-home relative min-h-screen overflow-hidden bg-cyber-bg text-cyber-text">
       <AmbientBackground />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 sm:px-6 lg:px-8">
@@ -226,7 +228,8 @@ export function CyberHome({ theme }: { theme: AppTheme }) {
       <footer className="relative z-10 border-t border-cyber-border/80 px-5 py-8 text-center text-xs tracking-[0.12em] text-cyber-text/40 sm:px-6 lg:px-8">
         <p>公众号引流解锁博客平台 · 为内容增长设计的解锁入口</p>
       </footer>
-    </main>
+      </main>
+    </FrontendScrollArea>
   );
 }
 

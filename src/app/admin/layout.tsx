@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { getAppTheme } from "@/lib/server-theme";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AdminScrollArea } from "@/components/admin/AdminScrollArea";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 
 type IconName = "home" | "blog" | "records" | "users";
@@ -76,20 +77,23 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
         </nav>
       </aside>
-      <main className="admin-scroll ml-60 h-screen overflow-y-auto overflow-x-hidden">
-        <header className="admin-topbar sticky top-0 z-20 flex h-14 items-center justify-between border-b border-slate-200 bg-white px-6">
-          <div className="text-sm text-slate-500">
-            当前用户：<span className="font-medium text-slate-900">{user.name}</span>
-            <span className="ml-2 text-slate-400">{user.role === "SUPER_ADMIN" ? "超级管理员" : "普通用户"}</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-xs text-slate-400">{user.email}</div>
-            <ThemeToggle theme={theme} variant={theme} className="admin-theme-toggle" />
-            <LogoutButton />
-          </div>
-        </header>
-        <div className="admin-content p-4">{children}</div>
-      </main>
+      <AdminScrollArea
+        topbar={(
+          <>
+            <div className="text-sm text-slate-500">
+              当前用户：<span className="font-medium text-slate-900">{user.name}</span>
+              <span className="ml-2 text-slate-400">{user.role === "SUPER_ADMIN" ? "超级管理员" : "普通用户"}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-xs text-slate-400">{user.email}</div>
+              <ThemeToggle theme={theme} variant={theme} className="admin-theme-toggle" />
+              <LogoutButton />
+            </div>
+          </>
+        )}
+      >
+        {children}
+      </AdminScrollArea>
     </div>
   );
 }

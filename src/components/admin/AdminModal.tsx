@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { createPortal } from "react-dom";
 import type { FormEventHandler, ReactNode } from "react";
+import { AdminScrollbar } from "@/components/admin/AdminScrollArea";
 
 type AdminModalProps = {
   title: string;
@@ -44,7 +45,9 @@ export function AdminModal({
           ×
         </button>
       </div>
-      <div className="admin-clean-scrollbar admin-modal-body">{children}</div>
+      <AdminScrollbar className="admin-modal-body" scrollableNodeClassName="admin-modal-body-viewport">
+        {children}
+      </AdminScrollbar>
       {footer && <div className="admin-modal-footer">{footer}</div>}
     </>
   );

@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { AdminModal } from "@/components/admin/AdminModal";
+import { AdminScrollbar } from "@/components/admin/AdminScrollArea";
 import { buildHexoUsage, buildHtmlUsage, buildWechatReply, type UsageBlog } from "@/lib/usage";
 import { shortText } from "@/lib/format";
 
@@ -38,6 +39,18 @@ type BlogForm = {
 };
 
 type CurrentUser = { role: "SUPER_ADMIN" | "USER" };
+type SelectOption<T extends string> = { value: T; label: string };
+
+const blogTypeOptions: SelectOption<string>[] = [
+  { value: "website", label: "website" },
+  { value: "hexo", label: "hexo" },
+];
+
+const protectionModeOptions: SelectOption<ProtectionMode>[] = [
+  { value: "all", label: "全部保护" },
+  { value: "rules", label: "按规则保护" },
+  { value: "off", label: "关闭保护" },
+];
 
 const emptyForm: BlogForm = {
   type: "website",
@@ -204,7 +217,7 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
           <button onClick={openCreate} className="h-9 rounded bg-blue-500 px-5 text-sm text-white">新增</button>
           <button onClick={batchDelete} className="h-9 rounded bg-rose-400 px-5 text-sm text-white">批量删除</button>
         </div>
-        <div className="overflow-x-auto">
+        <AdminScrollbar className="admin-table-scroll" scrollableNodeClassName="admin-table-scroll-viewport">
           <table className="min-w-full border border-slate-200 text-sm">
             <thead className="bg-slate-50 text-slate-500">
               <tr>
@@ -250,7 +263,7 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
               {blogs.length === 0 && <tr><td colSpan={14} className="p-10 text-center text-slate-400">暂无数据</td></tr>}
             </tbody>
           </table>
-        </div>
+        </AdminScrollbar>
       </div>
 
       {showForm && (
@@ -268,7 +281,7 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
           }
         >
             <div className="grid gap-4">
-              <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">* 博客类型</span><select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="rounded border px-3 py-2"><option value="website">website</option><option value="hexo">hexo</option></select></label>
+              <AdminSelect label="* 博客类型" value={form.type} options={blogTypeOptions} onChange={(value) => setForm({ ...form, type: value })} />
               {editing && <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">* 博客 ID</span><input value={editing.blogId} disabled className="rounded border bg-slate-50 px-3 py-2" /></label>}
               <Field label="* 博客名称" value={form.name} onChange={(value) => setForm({ ...form, name: value })} />
               <Field label="* 博客域名" value={form.domain} placeholder="https://www.example.com" onChange={(value) => setForm({ ...form, domain: value })} />
@@ -279,7 +292,7 @@ export function BlogsManager({ currentUser, initialBlogs }: { currentUser: Curre
               <NumberField label="* 验证码的有效时间（秒）" value={form.captchaExpiresSeconds} onChange={(value) => setForm({ ...form, captchaExpiresSeconds: value })} />
               <NumberField label="* 随机引流概率" value={form.randomPercent} onChange={(value) => setForm({ ...form, randomPercent: value })} />
               <NumberField label="* 预览高度（px）" value={form.previewHeight} onChange={(value) => setForm({ ...form, previewHeight: value })} />
-              <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">保护模式</span><select value={form.protectionMode} onChange={(e) => setForm({ ...form, protectionMode: e.target.value as ProtectionMode })} className="rounded border px-3 py-2"><option value="all">全部保护</option><option value="rules">按规则保护</option><option value="off">关闭保护</option></select></label>
+              <AdminSelect label="保护模式" value={form.protectionMode} options={protectionModeOptions} onChange={(value) => setForm({ ...form, protectionMode: value })} />
               <TextareaField label="白名单规则" value={form.whitelistRulesText} placeholder={"/about/\nprefix:/public/\nexact:https://example.com/about/"} onChange={(value) => setForm({ ...form, whitelistRulesText: value })} />
               <TextareaField label="保护规则" value={form.protectionRulesText} placeholder={"/posts/private/\nprefix:/vip/\ncontains:?locked=true"} onChange={(value) => setForm({ ...form, protectionRulesText: value })} />
               <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">允许移动端</span><input type="checkbox" checked={form.allowMobile} onChange={(e) => setForm({ ...form, allowMobile: e.target.checked })} className="h-4 w-4" /></label>
@@ -323,6 +336,57 @@ function NumberField({ label, value, onChange }: { label: string; value: number;
   return <label className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm"><span className="text-right text-slate-600">{label}</span><input type="number" value={value} onChange={(e) => onChange(Number(e.target.value))} className="rounded border border-slate-300 px-3 py-2" /></label>;
 }
 
+function AdminSelect<T extends string>({ label, value, options, onChange }: { label: string; value: T; options: SelectOption<T>[]; onChange: (value: T) => void }) {
+  const [open, setOpen] = useState(false);
+  const selected = options.find((option) => option.value === value);
+
+  return (
+    <div className="grid grid-cols-[170px_1fr] items-center gap-3 text-sm">
+      <span className="text-right text-slate-600">{label}</span>
+      <div
+        className="admin-custom-select relative"
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpen(false);
+        }}
+      >
+        <button
+          type="button"
+          className="flex w-full items-center justify-between rounded border border-slate-300 px-3 py-2 text-left text-sm"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          onClick={() => setOpen((current) => !current)}
+        >
+          <span>{selected?.label ?? value}</span>
+          <span aria-hidden="true" className="text-xs">▾</span>
+        </button>
+        {open && (
+          <div className="absolute left-0 right-0 top-full z-90 mt-1 overflow-hidden rounded border border-slate-300 bg-white py-1 shadow-xl" role="listbox">
+            {options.map((option) => {
+              const active = option.value === value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={active}
+                  className={`block w-full px-3 py-2 text-left text-sm ${active ? "bg-blue-500 text-white" : "bg-white text-slate-900 hover:bg-blue-50 hover:text-blue-700"}`}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => {
+                    onChange(option.value);
+                    setOpen(false);
+                  }}
+                >
+                  {option.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function TextareaField({ label, value, placeholder, onChange }: { label: string; value: string; placeholder?: string; onChange: (value: string) => void }) {
   return <label className="grid grid-cols-[170px_1fr] items-start gap-3 text-sm"><span className="pt-2 text-right text-slate-600">{label}</span><textarea value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} className="min-h-24 rounded border border-slate-300 px-3 py-2 font-mono text-sm" /></label>;
 }
@@ -332,5 +396,9 @@ function Alert({ text }: { text: string }) {
 }
 
 function CodeBlock({ code }: { code: string }) {
-  return <pre className="admin-clean-scrollbar mb-4 max-h-[360px] overflow-auto whitespace-pre-wrap rounded bg-[#282828] p-4 text-sm leading-7 text-emerald-200">{code}</pre>;
+  return (
+    <AdminScrollbar className="admin-code-scroll mb-4 max-h-90 rounded bg-[#282828]" scrollableNodeClassName="admin-code-scroll-viewport">
+      <pre className="whitespace-pre-wrap p-4 text-sm leading-7 text-emerald-200">{code}</pre>
+    </AdminScrollbar>
+  );
 }

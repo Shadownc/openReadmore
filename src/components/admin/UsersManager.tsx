@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AdminModal } from "@/components/admin/AdminModal";
+import { AdminScrollbar } from "@/components/admin/AdminScrollArea";
 import { formatDate } from "@/lib/format";
 
 type UserItem = {
@@ -60,7 +61,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserItem[] }) {
           <input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="邮箱 / 昵称" className="h-9 w-64 rounded border border-slate-300 px-3 text-sm" />
           <button onClick={loadUsers} className="h-9 rounded border border-slate-300 px-5 text-sm">查询</button>
         </div>
-        <div className="overflow-x-auto">
+        <AdminScrollbar className="admin-table-scroll" scrollableNodeClassName="admin-table-scroll-viewport">
           <table className="min-w-full border border-slate-200 text-sm">
             <thead className="bg-slate-50 text-slate-500">
               <tr>
@@ -94,7 +95,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserItem[] }) {
               {users.length === 0 && <tr><td colSpan={10} className="p-10 text-center text-slate-400">暂无数据</td></tr>}
             </tbody>
           </table>
-        </div>
+        </AdminScrollbar>
       </div>
       {detail && (
         <AdminModal title="用户明细" size="md" onClose={() => setDetail(null)}>

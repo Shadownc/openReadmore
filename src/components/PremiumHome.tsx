@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { FrontendScrollArea } from "@/components/FrontendScrollArea";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import type { AppTheme } from "@/lib/theme";
@@ -56,7 +57,8 @@ const stats = [
 
 export function PremiumHome({ theme }: { theme: AppTheme }) {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#050506] text-[#EDEDEF]">
+    <FrontendScrollArea variant="premium">
+      <main className="relative min-h-screen overflow-hidden bg-[#050506] text-[#EDEDEF]">
       <AmbientBackground />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 lg:px-8">
@@ -176,7 +178,8 @@ export function PremiumHome({ theme }: { theme: AppTheme }) {
       <footer className="relative z-10 border-t border-white/[0.06] px-6 py-8 text-center text-sm text-white/40 lg:px-8">
         <p>公众号引流解锁博客平台 · 为内容增长设计的精密入口</p>
       </footer>
-    </main>
+      </main>
+    </FrontendScrollArea>
   );
 }
 

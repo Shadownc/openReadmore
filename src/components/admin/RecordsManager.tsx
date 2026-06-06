@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AdminModal } from "@/components/admin/AdminModal";
+import { AdminScrollbar } from "@/components/admin/AdminScrollArea";
 import { formatDate, shortText } from "@/lib/format";
 
 type RecordItem = {
@@ -65,7 +66,7 @@ export function RecordsManager({ currentUser, initialRecords }: { currentUser: C
           <button onClick={loadRecords} className="h-9 rounded border border-slate-300 px-5 text-sm">查询</button>
           <button onClick={batchDelete} className="h-9 rounded bg-rose-400 px-5 text-sm text-white">批量删除</button>
         </div>
-        <div className="overflow-x-auto">
+        <AdminScrollbar className="admin-table-scroll" scrollableNodeClassName="admin-table-scroll-viewport">
           <table className="min-w-full border border-slate-200 text-sm">
             <thead className="bg-slate-50 text-slate-500">
               <tr>
@@ -101,7 +102,7 @@ export function RecordsManager({ currentUser, initialRecords }: { currentUser: C
               {records.length === 0 && <tr><td colSpan={11} className="p-10 text-center text-slate-400">暂无数据</td></tr>}
             </tbody>
           </table>
-        </div>
+        </AdminScrollbar>
       </div>
       {detail && (
         <AdminModal title="明细" size="lg" onClose={() => setDetail(null)}>

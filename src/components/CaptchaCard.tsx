@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { FrontendScrollArea } from "@/components/FrontendScrollArea";
 
 export function CaptchaCard(props: { blogId: string; blogName: string; officialAccountName: string; replyKeyword: string; initialCode: string; initialRefreshInSeconds: number }) {
   const [code, setCode] = useState(props.initialCode);
@@ -34,7 +35,8 @@ export function CaptchaCard(props: { blogId: string; blogName: string; officialA
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#f5f8ff] px-4 py-10 text-slate-800">
+    <FrontendScrollArea variant="light">
+      <main className="relative min-h-screen overflow-hidden bg-[#f5f8ff] px-4 py-10 text-slate-800">
       <div className="absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-200/70 blur-3xl" />
       <div className="absolute -bottom-24 right-10 h-80 w-80 rounded-full bg-indigo-200/70 blur-3xl" />
       <div className="relative mx-auto flex min-h-[calc(100vh-5rem)] max-w-md items-center">
@@ -53,6 +55,7 @@ export function CaptchaCard(props: { blogId: string; blogName: string; officialA
           </div>
         </div>
       </div>
-    </main>
+      </main>
+    </FrontendScrollArea>
   );
 }
